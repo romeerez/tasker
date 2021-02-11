@@ -1,0 +1,60 @@
+@tailwind base;
+
+body {
+  @apply m-0 text-blue-800;
+  background: linear-gradient(white, #e4ebf3 70%, #ecf0f3);
+}
+
+html, body, #root {
+  @apply h-full;
+}
+
+input:focus {
+  outline: none;
+  background: transparent;
+  appearance: none;
+}
+
+@tailwind components;
+
+@tailwind utilities;
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .floating-input-group {
+    @apply relative focus-within:border-blue-500;
+  }
+
+  .floating-input {
+    @apply p-2 block w-full border-b border-gray-200;
+  }
+
+  .floating-label {
+    @apply absolute top-0 py-2 pointer-events-none duration-300 origin-0 text-gray-600;
+  }
+
+  .floating-input:focus-within ~ .floating-label,
+  .floating-input:not(:placeholder-shown) ~ .floating-label,
+  .floating-input:-webkit-autofill ~ .floating-label {
+    @apply transform scale-75 -translate-y-8 text-blue-500;
+  }
+
+  .btn {
+    @apply flex-center border font-bold w-full h-10 transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply btn border-blue-500 bg-gradient-to-b from-blue-400 to-blue-500 text-white rounded opacity-90 hover:opacity-100;
+  }
+
+  .btn-secondary {
+    @apply btn border-gray-200 bg-gradient-to-b from-white text-gray-700 to-gray-100 rounded mt-3 opacity-80 hover:opacity-100;
+  }
+
+  .box {
+    @apply bg-white rounded shadow-lg py-5 px-8;
+  }
+}

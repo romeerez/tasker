@@ -1,0 +1,9 @@
+type Query {
+  currentUser: User!
+  isUsernameFree(username: String!): Boolean!
+  isEmailFree(email: String!): Boolean!
+}
+
+type User {
+  id: Int!
+}

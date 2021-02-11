@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "schema": "node cli.js generate-schema",
+    "start-db": "node cli.js start-db",
+    "stop-db": "node cli.js stop-db"
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^1.20.1",
+    "@graphql-codegen/introspection": "^1.18.1",
+    "@graphql-codegen/typescript": "^1.20.2",
+    "@graphql-codegen/typescript-operations": "^1.17.14",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.5.0",
+    "graphqurl": "^0.3.3"
+  },
+  "name": "tasker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
