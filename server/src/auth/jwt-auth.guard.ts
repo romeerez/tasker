@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from 'utils/public.decorator';
+import { IS_PUBLIC_KEY } from 'common/decorators/public.decorator';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()

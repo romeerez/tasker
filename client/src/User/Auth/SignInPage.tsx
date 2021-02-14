@@ -8,7 +8,7 @@ import FloatingInput from 'Shared/Form/FloatingInput'
 import { useMutation } from '@apollo/client'
 import Button from 'Shared/Button'
 import { login as acceptLogin } from 'User/service'
-import { loginQuery } from 'User/queries'
+import { loginMutation } from 'User/queries'
 
 const LoginSchema = yup.object({
   usernameOrEmail: yup.string().required(),
@@ -16,7 +16,7 @@ const LoginSchema = yup.object({
 })
 
 export default function SignInPage() {
-  const [login, { loading, error }] = useMutation(loginQuery, {
+  const [login, { loading, error }] = useMutation(loginMutation, {
     errorPolicy: 'all',
     update(cache, { data: { login } }) {
       acceptLogin(login)
@@ -30,10 +30,10 @@ export default function SignInPage() {
   }
 
   return (
-    <AuthLayout>
-      <form onSubmit={form.handleSubmit(submit)}>
-        <div className="text-xl text-center text-gray-900">Sign In</div>
-        <div className="text-red-500 mt-2 h-6 mb-6">{error?.message}</div>
+    <AuthLayout className="max-w-sm">
+      <div className="text-xl text-center">Sign In</div>
+      {error && <div className="text-red-500 mt-4 mb-6">{error.message}</div>}
+      <form onSubmit={form.handleSubmit(submit)} className="mt-10">
         <FloatingInput
           form={form}
           name="usernameOrEmail"
@@ -48,9 +48,21 @@ export default function SignInPage() {
         <Button type="submit" className="btn-primary mt-6" loading={loading}>
           Sign In
         </Button>
-        <Link to={routes.signUp} className="btn-secondary">
+        <Link to={routes.signUp} className="btn-secondary mt-3">
           Sign Up
         </Link>
+        <div className="text-sm mt-6">
+          <div className="flex-center h-5">
+            <Link to={routes.forgotPassword} className="link">
+              Forgot password?
+            </Link>
+          </div>
+          <div className="flex-center h-5 mt-3">
+            <Link to={routes.resendConfirmationInstructions} className="link">
+              Didn't receive confirmation instructions?
+            </Link>
+          </div>
+        </div>
       </form>
     </AuthLayout>
   )

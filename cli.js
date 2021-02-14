@@ -11,7 +11,7 @@ if (action === 'generate-schema') {
   const fs = require('fs')
 
   fs.mkdir('shared', (err) => {
-    if (err) throw err
+    if (err && err.code !== 'EEXIST') throw err
 
     const gq = spawn("gq", [process.env.DATABASE_GRAPHQL_URL, '--introspect', '-H', `X-Hasura-Admin-Secret:${process.env.HASURA_ADMIN_SECRET}`])
     gq.stdout.pipe(fs.createWriteStream('shared/schema.graphql', {flags: 'w'}))
@@ -28,7 +28,7 @@ if (action === 'generate-schema') {
   let netOrPort = type === 'linux' ? '--net=host' : '-p 8080:8080'
 
   const docker = spawn('docker', [
-    'run', '-d', '--name', hasuraDockerName, netOrPort,
+    'run', '-d', `--name=${hasuraDockerName}`, netOrPort,
     '-e', `HASURA_GRAPHQL_DATABASE_URL=${process.env.DATABASE_URL}`,
     '-e', 'HASURA_GRAPHQL_ENABLE_CONSOLE=false',
     '-e', 'HASURA_GRAPHQL_DEV_MODE=true',

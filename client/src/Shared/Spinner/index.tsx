@@ -8,7 +8,7 @@ type Props = {
 
 export default function Spinner({ className }: Props) {
   return (
-    <div className={cn(className, style.loader)}>
+    <div className={cn(className, style.spinner)}>
       <div />
       <div />
       <div />

@@ -9,9 +9,11 @@
     "@graphql-codegen/introspection": "^1.18.1",
     "@graphql-codegen/typescript": "^1.20.2",
     "@graphql-codegen/typescript-operations": "^1.17.14",
+    "@styled-icons/boxicons-regular": "^10.23.0",
     "dotenv": "^8.2.0",
     "graphql": "^15.5.0",
-    "graphqurl": "^0.3.3"
+    "graphqurl": "^0.3.3",
+    "styled-components": "^5.2.1"
   },
   "name": "tasker",
   "version": "1.0.0",

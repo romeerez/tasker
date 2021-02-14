@@ -2,3 +2,5 @@
 .env
 node_modules
 shared
+heroku
+yarn-error.log

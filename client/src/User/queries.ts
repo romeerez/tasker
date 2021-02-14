@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-export const loginQuery = gql`
+export const loginMutation = gql`
   mutation Login($usernameOrEmail: String!, $password: String!) {
     login(input: { usernameOrEmail: $usernameOrEmail, password: $password }) {
       user {
@@ -15,7 +15,7 @@ export const loginQuery = gql`
   }
 `
 
-export const registerQuery = gql`
+export const registerMutation = gql`
   mutation Register(
     $username: String!
     $email: String!
@@ -34,12 +34,7 @@ export const registerQuery = gql`
     ) {
       user {
         id
-        username
-        email
-        firstName
-        lastName
       }
-      accessToken
     }
   }
 `
@@ -53,5 +48,47 @@ export const isUsernameFreeQuery = gql`
 export const isEmailFreeQuery = gql`
   query IsEmailFree($email: String!) {
     isEmailFree(email: $email)
+  }
+`
+
+export const sendEmailConfirmationMutation = gql`
+  mutation SendEmailConfirmation($email: String!) {
+    sendEmailConfirmation(email: $email)
+  }
+`
+
+export const verifyEmailMutation = gql`
+  mutation VerifyEmail($token: String!) {
+    verifyEmail(token: $token) {
+      user {
+        id
+        username
+        firstName
+        lastName
+        email
+      }
+      accessToken
+    }
+  }
+`
+
+export const sendResetPasswordMutation = gql`
+  mutation SendResetPassword($email: String!) {
+    sendResetPassword(email: $email)
+  }
+`
+
+export const resetPasswordMutation = gql`
+  mutation ResetPassword($token: String!, $password: String!) {
+    resetPassword(input: { token: $token, password: $password }) {
+      user {
+        id
+        username
+        firstName
+        lastName
+        email
+      }
+      accessToken
+    }
   }
 `

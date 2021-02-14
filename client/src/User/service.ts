@@ -51,12 +51,12 @@ export const login = ({
   user: Omit<CurrentUser, 'accessToken'>
   accessToken: string
 }) => {
-  serverClient.clearStore()
+  serverClient.resetStore()
   setCurrentUser({ ...user, accessToken })
 }
 
 export const logOut = () => {
-  serverClient.clearStore()
+  serverClient.resetStore()
   setCurrentUser()
 }
 

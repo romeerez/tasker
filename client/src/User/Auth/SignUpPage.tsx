@@ -6,9 +6,10 @@ import * as yup from 'yup'
 import { useForm } from 'utils/useForm'
 import FloatingInput from 'Shared/Form/FloatingInput'
 import { useMutation } from '@apollo/client'
-import { checkEmail, checkUsername, login as acceptLogin } from 'User/service'
+import { checkEmail, checkUsername } from 'User/service'
 import Button from 'Shared/Button'
-import { registerQuery } from 'User/queries'
+import { registerMutation } from 'User/queries'
+import ResendConfirmationInstructionsPage from 'User/Auth/ResendConfirmationInstructionsPage'
 
 const RegisterSchema = yup.object({
   username: yup
@@ -26,24 +27,39 @@ const RegisterSchema = yup.object({
 })
 
 export default function SignUpPage() {
-  const [register, { loading, error }] = useMutation(registerQuery, {
-    errorPolicy: 'all',
-    update(cache, { data: { register } }) {
-      acceptLogin(register)
+  const [registeredEmail, setRegisteredEmail] = React.useState<string>()
+
+  const [register, { loading, error, data: registered }] = useMutation(
+    registerMutation,
+    {
+      errorPolicy: 'all',
     },
-  })
+  )
 
   const form = useForm({ schema: RegisterSchema, mode: 'onChange' })
 
   const submit = () => {
-    register({ variables: form.getValues() })
+    const variables = form.getValues()
+    setRegisteredEmail(variables.email)
+    register({ variables })
   }
 
+  if (registered && registeredEmail)
+    return (
+      <ResendConfirmationInstructionsPage email={registeredEmail} hideEmail>
+        <div className="mt-2 mb-4">
+          A message with a confirmation link has been sent to your email
+          address.
+        </div>
+        Please follow the link to activate your account.
+      </ResendConfirmationInstructionsPage>
+    )
+
   return (
-    <AuthLayout>
-      <form onSubmit={form.handleSubmit(submit)}>
-        <div className="text-xl text-center text-gray-900">Sign Up</div>
-        <div className="text-red-500 h-6 mt-2 mb-6">{error?.message}</div>
+    <AuthLayout className="max-w-md">
+      <div className="text-xl text-center">Sign Up</div>
+      {error && <div className="text-red-500 mt-4 mb-6">{error.message}</div>}
+      <form onSubmit={form.handleSubmit(submit)} className="mt-10">
         <FloatingInput form={form} name="username" label="Username" />
         <FloatingInput form={form} name="firstName" label="First name" />
         <FloatingInput form={form} name="lastName" label="Last name" />
@@ -57,9 +73,21 @@ export default function SignUpPage() {
         <Button type="submit" className="btn-primary mt-6" loading={loading}>
           Sign Up
         </Button>
-        <Link to={routes.signIn} className="btn-secondary">
+        <Link to={routes.signIn} className="btn-secondary mt-3">
           Sign In
         </Link>
+        <div className="text-sm mt-6">
+          <div className="flex-center h-5">
+            <Link to={routes.forgotPassword} className="link">
+              Forgot password?
+            </Link>
+          </div>
+          <div className="flex-center h-5 mt-3">
+            <Link to={routes.resendConfirmationInstructions} className="link">
+              Didn't receive confirmation instructions?
+            </Link>
+          </div>
+        </div>
       </form>
     </AuthLayout>
   )

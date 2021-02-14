@@ -1,16 +1,20 @@
+type Query {
+  isUsernameFree(username: String!): Boolean!
+  isEmailFree(email: String!): Boolean!
+}
+
 type Mutation {
   login(input: LoginInput!): LoginResponse!
   register(input: RegisterInput!): RegisterResponse!
+  sendEmailConfirmation(email: String!): Boolean!
+  verifyEmail(token: String!): ResponseForLogin!
+  sendResetPassword(email: String!): Boolean!
+  resetPassword(input: ResetPasswordInput!): ResponseForLogin!
 }
 
 input LoginInput {
   usernameOrEmail: String!
   password: String!
-}
-
-type LoginResponse {
-  user: User!
-  accessToken: String!
 }
 
 input RegisterInput {
@@ -21,9 +25,28 @@ input RegisterInput {
   password: String!
 }
 
-type RegisterResponse {
+input ResetPasswordInput {
+  token: String!
+  password: String!
+}
+
+type LoginResponse {
   user: User!
   accessToken: String!
+}
+
+type RegisterResponse {
+  user: UserWithId!
+  accessToken: String!
+}
+
+type ResponseForLogin {
+  user: User!
+  accessToken: String!
+}
+
+type UserWithId {
+  id: Int!
 }
 
 type User {

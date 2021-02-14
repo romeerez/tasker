@@ -1,7 +1,7 @@
 @tailwind base;
 
 body {
-  @apply m-0 text-blue-800;
+  @apply m-0 text-gray-800;
   background: linear-gradient(white, #e4ebf3 70%, #ecf0f3);
 }
 
@@ -46,15 +46,31 @@ input:focus {
     @apply flex-center border font-bold w-full h-10 transition-all duration-200;
   }
 
+  .btn:disabled {
+    @apply opacity-50
+  }
+
   .btn-primary {
-    @apply btn border-blue-500 bg-gradient-to-b from-blue-400 to-blue-500 text-white rounded opacity-90 hover:opacity-100;
+    @apply btn border-blue-500 bg-gradient-to-b from-blue-400 to-blue-500 text-white rounded opacity-90;
+  }
+
+  .btn-primary:not(:disabled) {
+    @apply hover:opacity-100
   }
 
   .btn-secondary {
-    @apply btn border-gray-200 bg-gradient-to-b from-white text-gray-700 to-gray-100 rounded mt-3 opacity-80 hover:opacity-100;
+    @apply btn border-gray-200 bg-gradient-to-b from-white text-gray-700 to-gray-100 rounded opacity-80;
+  }
+
+  .btn-secondary:not(:disabled) {
+    @apply hover:opacity-100
   }
 
   .box {
     @apply bg-white rounded shadow-lg py-5 px-8;
+  }
+
+  .link {
+    @apply text-blue-500 hover:underline;
   }
 }
