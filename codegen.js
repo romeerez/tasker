@@ -11,7 +11,7 @@ module.exports = {
   },
   overwrite: true,
   generates: {
-    './shared/graphql.ts': {
+    './shared/db-graphql.ts': {
       plugins: [
         'typescript',
         'typescript-operations',

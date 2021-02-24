@@ -6,7 +6,7 @@ import { LoginResponse, RegisterResponse } from 'graphql-schema';
 import { LoginDto, RegisterDto, ResetPasswordDto } from 'auth/auth.dto';
 import { decode } from 'common/jwt';
 import { request } from 'common/graphql-request';
-import { User } from '@shared/graphql';
+import { User } from '@shared/db-graphql';
 import {
   findByEmailQuery,
   findForLoginQuery,

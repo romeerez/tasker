@@ -13,13 +13,27 @@ if (action === 'generate-schema') {
   fs.mkdir('shared', (err) => {
     if (err && err.code !== 'EEXIST') throw err
 
+    // Save database schema to shared/db-schema.graphql
     const gq = spawn("gq", [process.env.DATABASE_GRAPHQL_URL, '--introspect', '-H', `X-Hasura-Admin-Secret:${process.env.HASURA_ADMIN_SECRET}`])
-    gq.stdout.pipe(fs.createWriteStream('shared/schema.graphql', {flags: 'w'}))
+    gq.stdout.pipe(fs.createWriteStream('shared/db-schema.graphql', {flags: 'w'}))
     gq.stderr.pipe(process.stdout)
 
+    // Save database schema types to shared/db-graphql.ts
     const graphqlCodegen = spawn('graphql-codegen', ['--config', 'codegen.js'])
     graphqlCodegen.stdout.pipe(process.stdout)
     graphqlCodegen.stderr.pipe(process.stderr)
+
+    // Merge .graphql files of server into shared/server-schema.graphql
+    const path = require('path');
+    const { loadFilesSync } = require('@graphql-tools/load-files');
+    const { mergeTypeDefs } = require('@graphql-tools/merge');
+    const { print } = require('graphql');
+
+    const typesArray = loadFilesSync(path.join(__dirname, 'server', 'src'), { extensions: ['graphql'] });
+
+    const typeDefs = mergeTypeDefs(typesArray)
+    const printedTypeDefs = print(typeDefs)
+    fs.writeFileSync(path.join('shared', 'server-schema.graphql'), printedTypeDefs)
   })
 } else if (action === 'start-db') {
   const {spawn} = require("child_process")
